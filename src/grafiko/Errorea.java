@@ -1,34 +1,54 @@
 package grafiko;
 
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Errorea extends JDialog {
 
-	public Errorea(String mezua){
-		super(new Frame(),"Error", true);
-		this.setBounds(300, 150, 400, 180);
-		this.getContentPane().setLayout(null);
-		JLabel label = new JLabel(mezua);
-		label.setBounds(65, 35, 110, 15);
-		this.getContentPane().add(label, null);
-		JButton botoia = new JButton("OK");
-		botoia.setBounds(165, 80, 105, 30);
-		botoia.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
+	private JPanel contentPanel = new JPanel();
+
+
+	public Errorea(String mezu) {
+		setBounds(100, 100, 450, 200);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(50, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		{
+			JLabel label = new JLabel(mezu);
+			label.setVerticalAlignment(SwingConstants.BOTTOM);
+			contentPanel.add(label);
+		}
+		{
+			JPanel buttonPane = new JPanel();
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
 			}
-		});
-		this.getContentPane().add(botoia);
-		getRootPane().setDefaultButton(botoia);
-		this.setVisible(true);
+		}
+		{
+			JPanel panel = new JPanel();
+			getContentPane().add(panel, BorderLayout.NORTH);
+		}
+		setVisible(true);
 	}
+	
 }
