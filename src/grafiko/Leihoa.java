@@ -48,7 +48,7 @@ public class Leihoa extends JFrame {
 		JButton btnNewButton_1 = new JButton("Administratzailea");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				administratzailea();
+				new Administratzailea();
 			}
 		});
 		panel.add(btnNewButton_1);
@@ -65,83 +65,13 @@ public class Leihoa extends JFrame {
 		JButton btnNewButton = new JButton("Arrunta");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				arrunta();
+				new Arrunta();
 			}
 		});
 		panel.add(btnNewButton);
 	}
 
-	public void administratzailea(){
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-		
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.CENTER);
-
-		JButton btnNewButton = new JButton("Bakide berria sartu");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		panel.add(btnNewButton);
-		
-		JButton btnNewButton1 = new JButton("Bazkideen egoera aldatu");
-		btnNewButton1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		panel.add(btnNewButton1);
-		
-		JButton btnNewButton2 = new JButton("Pelikula sartu");
-		btnNewButton2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		panel.add(btnNewButton2);
-		
-		JButton btnNewButton3 = new JButton("Pelikula baja");
-		btnNewButton3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		panel.add(btnNewButton3);
-		
-		frame.setVisible(true);
-	}
 	
 	
-	public void arrunta(){
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-		
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.CENTER);
-
-		JButton btnNewButton = new JButton("Katalogoa ikusi");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		panel.add(btnNewButton);
-		
-		JButton btnNewButton1 = new JButton("Estrenaldiak ikusi");
-		btnNewButton1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		panel.add(btnNewButton1);
-		
-		frame.setVisible(true);
-		
-	}
+	
 }
