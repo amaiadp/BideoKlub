@@ -71,6 +71,9 @@ public class Leihoa extends JFrame {
 		panel.add(btnNewButton);
 	}
 
+	//EKA YA LO TIENE EN SU PC !!
+	//UEEEEEE
+	//KILL ME PLS
 	
 	
 	
