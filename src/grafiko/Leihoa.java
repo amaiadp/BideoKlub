@@ -23,6 +23,7 @@ public class Leihoa extends JFrame {
 			public void run() {
 				try {
 					frame = new Leihoa();
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -30,11 +31,13 @@ public class Leihoa extends JFrame {
 			}
 		});
 	}
-
+	public static Leihoa getFrame(){
+		return frame;
+	}
 	/**
 	 * Create the frame.
 	 */
-	public Leihoa() {
+	private Leihoa() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(300, 150, 450, 300);
 		setResizable(false);

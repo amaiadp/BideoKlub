@@ -41,7 +41,14 @@ public class Arrunta extends JFrame{
 			}
 		});
 		panel.add(btnNewButton1);
-		
+		JButton btnNewButton4 = new JButton("<--");
+		btnNewButton4.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Leihoa.getFrame().setVisible(true);
+				dispose();
+			}
+		});
+		panel.add(btnNewButton4);
 		setVisible(true);
 		
 	}

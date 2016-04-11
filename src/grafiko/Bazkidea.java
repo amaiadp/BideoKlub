@@ -29,7 +29,7 @@ public class Bazkidea extends JFrame {
 	
 	public Bazkidea(){
 		this.loginSortu();		
-		
+		//this.menuaErakutsi();
 	}
 	
 	
@@ -65,6 +65,7 @@ public class Bazkidea extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
+					menuaErakutsi();
 					eraKode =Integer.parseInt( textField.getText());
 					//System.out.println(eraKode);
 					pasahitza = textField_1.getPassword();
@@ -122,7 +123,15 @@ public class Bazkidea extends JFrame {
 			}
 		});
 		panel.add(btnNewButton3);
-		
+		JButton btnNewButton4 = new JButton("<--");
+		btnNewButton4.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Leihoa.getFrame().setVisible(true);
+				dispose();
+			}
+		});
+		panel.add(btnNewButton4);
+		setVisible(true);
 	}
 
 }
