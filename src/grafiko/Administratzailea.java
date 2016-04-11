@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 public class Administratzailea extends JFrame {
 
 	private JPanel contentPane;
+	private JPanel contentPane1;
 	
 	public  Administratzailea(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,6 +25,12 @@ public class Administratzailea extends JFrame {
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
+		
+		JPanel panel1 = new JPanel();
+		contentPane1 = new JPanel();
+		contentPane1.setBorder(new EmptyBorder(5,5,5,5));
+		contentPane1.setLayout(new BorderLayout(0, 0));
+		contentPane1.add(panel1, BorderLayout.SOUTH);
 
 		JButton btnNewButton = new JButton("Bakide berria sartu");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -64,7 +71,8 @@ public class Administratzailea extends JFrame {
 				dispose();
 			}
 		});
-		panel.add(btnNewButton4);
+		
+		panel1.add(btnNewButton4);
 		setVisible(true);
 	}
 	
