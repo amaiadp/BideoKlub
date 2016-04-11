@@ -37,6 +37,7 @@ public class Leihoa extends JFrame {
 	public Leihoa() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(300, 150, 450, 300);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -48,6 +49,7 @@ public class Leihoa extends JFrame {
 		JButton btnNewButton_1 = new JButton("Administratzailea");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				frame.setVisible(false);
 				new Administratzailea();
 			}
 		});
@@ -65,6 +67,7 @@ public class Leihoa extends JFrame {
 		JButton btnNewButton = new JButton("Arrunta");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
 				new Arrunta();
 			}
 		});
