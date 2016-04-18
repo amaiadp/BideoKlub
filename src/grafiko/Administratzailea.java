@@ -72,7 +72,7 @@ public class Administratzailea extends JFrame {
 			}
 		});
 		
-		panel1.add(btnNewButton4);
+		panel.add(btnNewButton4);
 		setVisible(true);
 	}
 	
