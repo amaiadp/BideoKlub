@@ -79,6 +79,15 @@ public class Bazkidea extends JFrame {
 		panel.add(botoia);
 		getRootPane().setDefaultButton(botoia);
 		
+		
+		JButton btnNewButton4 = new JButton("<--");
+		btnNewButton4.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Leihoa.getFrame().setVisible(true);
+				dispose();
+			}
+		});
+		panel.add(btnNewButton4, BorderLayout.SOUTH);
 		this.setVisible(true);
 		
 	}
