@@ -5,12 +5,11 @@ import java.util.ArrayList;
  
 public class Konexioa {
  
-   /* public static void main(String[] args) throws Exception{
-        // TODO Auto-generated method stub
+    public static void main(String[] args) throws Exception{
         getConnection();
         post();
         select();
-    }*/
+    }
    
     public static Connection getConnection() throws Exception{
         try{
