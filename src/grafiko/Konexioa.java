@@ -16,7 +16,7 @@ public class Konexioa {
 
 	public static Konexioa getKonexioa(){
 		if(nKonexioa== null){
-			new Konexioa();
+			nKonexioa = new Konexioa();
 		}
 		return nKonexioa;
 	}
@@ -49,8 +49,7 @@ public class Konexioa {
    
     public ResultSet select(String pAgindua){
         try{
-            Connection con = getConnection();
-            PreparedStatement statement = con.prepareStatement(pAgindua);
+            PreparedStatement statement = conn.prepareStatement(pAgindua);
            
             ResultSet result = statement.executeQuery();
             return result;

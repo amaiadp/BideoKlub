@@ -2,8 +2,11 @@ package grafiko;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -20,7 +23,10 @@ public class Bazkidea extends JFrame {
 	private JTextField textField;
 	private JPasswordField textField_1;
 	private int eraKode;
-	private char[] pasahitza;
+	private String pasahitza;
+	private String izena;
+	private String abizena;
+	private String helbidea;
 	
 	
 	/**
@@ -65,16 +71,19 @@ public class Bazkidea extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					menuaErakutsi();
 					eraKode =Integer.parseInt( textField.getText());
-					//System.out.println(eraKode);
-					pasahitza = textField_1.getPassword();
-					//System.out.println(textField_1.getPassword());
+					pasahitza = ((JTextField)textField_1).getText();
+					if (pasahitzaKonprobatu()){
+						datuakLortu();
+						menuaErakutsi();
+					}
 				}
 				catch (Exception ex){
 					new Errorea("Erabiltzaile okerra");
 				}
 			}
+
+
 		});
 		panel.add(botoia);
 		getRootPane().setDefaultButton(botoia);
@@ -104,7 +113,7 @@ public class Bazkidea extends JFrame {
 		JButton btnNewButton = new JButton("Datuak aldatu");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				datuakAldatu();
 			}
 		});
 		panel.add(btnNewButton);
@@ -141,6 +150,99 @@ public class Bazkidea extends JFrame {
 		});
 		panel.add(btnNewButton4);
 		setVisible(true);
+	}
+	
+	private boolean pasahitzaKonprobatu(){
+		Konexioa kon = Konexioa.getKonexioa();
+		ResultSet ema = kon.select("SELECT pasahitza FROM bazkidea WHERE kodea = "+ this.eraKode + ";");
+		if (ema== null){
+			new Errorea("Erabiltzaile okerra");
+		}
+		else{
+			try {
+				if(ema.next()){
+					String pasa= ema.getString("pasahitza");
+					if (pasa.equals(pasahitza)){
+						return true;
+					}
+					else{
+						new Errorea("Pasahitza okerra2");
+					}
+				}
+				else{
+					new Errorea("Erabiltzaile okerra3");
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
+	private void datuakAldatu() {
+		JPanel panela = new JPanel();
+		panela.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panela.setLayout(new BorderLayout(0, 0));
+		setContentPane(panela);
+		
+		JPanel panel = new JPanel();
+		panela.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 75, 10));
+		
+		JLabel izL= new JLabel("Izena:");		
+		panel.add(izL);
+		JTextField izTx = new JTextField(izena);
+		panel.add(izTx);
+		izTx.setColumns(20);
+		
+		JLabel abL= new JLabel("Abizena:");		
+		panel.add(abL);
+		JTextField abTx = new JTextField(abizena);
+		panel.add(abTx);
+		abTx.setColumns(20);
+		
+		JLabel helL= new JLabel("Helbidea:");		
+		panel.add(helL);
+		JTextField helTx = new JTextField(helbidea);
+		panel.add(helTx);
+		helTx.setColumns(30);
+		
+		JLabel pasL= new JLabel("Pasahitza:");		
+		panel.add(pasL);
+		JTextField pasTx = new JTextField(pasahitza);
+		panel.add(pasTx);
+		pasTx.setColumns(4);
+		
+		JButton aldatu = new JButton("Aldatu");
+		panela.add(aldatu, BorderLayout.SOUTH);
+		aldatu.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Konexioa kon = Konexioa.getKonexioa();
+				kon.post((new String().format("UPDATE Bazkidea SET pasahitza='%s' , izena='%s' , abizena='%s' , helbidea='%s' WHERE kodea=%d", pasTx.getText(),izTx.getText(),abTx.getText(),helTx.getText(),eraKode)));
+		
+			}
+		});
+		
+		this.setVisible(true);
+	}
+	
+	private void datuakLortu() {
+		Konexioa kon = Konexioa.getKonexioa();
+		ResultSet ema = kon.select("SELECT pasahitza,izena,abizena,helbidea FROM bazkidea WHERE kodea="+eraKode+";");
+		try{
+			if(ema.next()){
+				izena = ema.getString("izena");
+				abizena = ema.getString("abizena");
+				helbidea = ema.getString("helbidea");
+			}		
+		}
+		catch(Exception e){
+			
+		}
+		
 	}
 
 }
