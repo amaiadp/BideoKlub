@@ -163,7 +163,16 @@ public class Bazkidea extends JFrame {
 				if(ema.next()){
 					String pasa= ema.getString("pasahitza");
 					if (pasa.equals(pasahitza)){
-						return true;
+						ResultSet egoera = kon.select(String.format("SELECT egoera FROM bazkidea WHERE kodea= %d", eraKode));
+						egoera.next();
+						Boolean ego = egoera.getBoolean("egoera");
+						if(ego){
+							return true;
+						}
+						else{
+							new Errorea("Bazkidea ez dago altan");
+						}
+						
 					}
 					else{
 						new Errorea("Pasahitza okerra2");
@@ -214,17 +223,39 @@ public class Bazkidea extends JFrame {
 		panel.add(pasTx);
 		pasTx.setColumns(4);
 		
+		JPanel behekoPanela = new JPanel();
+		behekoPanela.setLayout(new BorderLayout(50,80));
+		panel.add(behekoPanela, BorderLayout.SOUTH);
+		
 		JButton aldatu = new JButton("Aldatu");
-		panela.add(aldatu, BorderLayout.SOUTH);
+		behekoPanela.add(aldatu, BorderLayout.CENTER);
 		aldatu.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Konexioa kon = Konexioa.getKonexioa();
-				kon.post((new String().format("UPDATE Bazkidea SET pasahitza='%s' , izena='%s' , abizena='%s' , helbidea='%s' WHERE kodea=%d", pasTx.getText(),izTx.getText(),abTx.getText(),helTx.getText(),eraKode)));
+				try{
+					new String();
+					String pAgindu = String.format("UPDATE Bazkidea SET pasahitza='%s' , izena='%s' , abizena='%s' , helbidea='%s' WHERE kodea=%d", pasTx.getText(),izTx.getText(),abTx.getText(),helTx.getText(),eraKode);
+					kon.post(pAgindu);
+				}
+				catch(Exception ex){
+					System.out.println("Aldagai luzeegiak");
+				}
+				
 		
 			}
 		});
+		
+		getRootPane().setDefaultButton(aldatu);
+		
+		JButton atzera = new JButton("<--");
+		atzera.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				setContentPane(contentPane);
+			}
+		});
+		behekoPanela.add(atzera, BorderLayout.EAST);
 		
 		this.setVisible(true);
 	}
