@@ -20,7 +20,7 @@ public class Errorea extends JDialog {
 
 	public Errorea(String mezu) {
 		super(new Frame(),"Error", true);
-		setBounds(100, 100, 450, 200);
+		setBounds(100, 100, 550, 200);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(50, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

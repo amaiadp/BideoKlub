@@ -38,13 +38,13 @@ public class Konexioa {
         return null;
     }
    
-    public void post(String pAgindu){
-        try {
+    public void post(String pAgindu)throws Exception{
+ //       try {
             PreparedStatement posted = conn.prepareStatement(pAgindu);
            
             posted.executeUpdate();
            
-        }catch(Exception e){System.out.println(e);}
+//        }catch(Exception e){System.out.println(e);}
     }
    
     public ResultSet select(String pAgindua){

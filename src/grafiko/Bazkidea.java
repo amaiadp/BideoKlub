@@ -240,7 +240,7 @@ public class Bazkidea extends JFrame {
 					kon.post(pAgindu);
 				}
 				catch(Exception ex){
-					System.out.println("Aldagai luzeegiak");
+					new Errorea("Aldagaien tamaina luzeegia:       Izena(30) Abizena(30) Helbidea(50) Pasahitza(4)");
 				}
 				
 		
