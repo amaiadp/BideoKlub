@@ -27,6 +27,7 @@ public class Bazkidea extends JFrame {
 	private String izena;
 	private String abizena;
 	private String helbidea;
+	private float kreditua;
 	
 	
 	/**
@@ -121,7 +122,7 @@ public class Bazkidea extends JFrame {
 		JButton btnNewButton1 = new JButton("Kreditua gehitu");
 		btnNewButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				kredituaGehitu();
 			}
 		});
 		panel.add(btnNewButton1);
@@ -151,7 +152,7 @@ public class Bazkidea extends JFrame {
 		panel.add(btnNewButton4);
 		setVisible(true);
 	}
-	
+
 	private boolean pasahitzaKonprobatu(){
 		Konexioa kon = Konexioa.getKonexioa();
 		ResultSet ema = kon.select("SELECT pasahitza FROM bazkidea WHERE kodea = "+ this.eraKode + ";");
@@ -190,6 +191,7 @@ public class Bazkidea extends JFrame {
 	}
 	
 	private void datuakAldatu() {
+		datuakLortu();
 		JPanel panela = new JPanel();
 		panela.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panela.setLayout(new BorderLayout(0, 0));
@@ -262,18 +264,86 @@ public class Bazkidea extends JFrame {
 	
 	private void datuakLortu() {
 		Konexioa kon = Konexioa.getKonexioa();
-		ResultSet ema = kon.select("SELECT pasahitza,izena,abizena,helbidea FROM bazkidea WHERE kodea="+eraKode+";");
+		ResultSet ema = kon.select("SELECT pasahitza,izena,abizena,helbidea,kreditua FROM bazkidea WHERE kodea="+eraKode+";");
 		try{
 			if(ema.next()){
 				izena = ema.getString("izena");
 				abizena = ema.getString("abizena");
 				helbidea = ema.getString("helbidea");
+				kreditua = ema.getFloat("kreditua");
 			}		
 		}
 		catch(Exception e){
 			
 		}
 		
+	}
+	
+	
+	private void kredituaGehitu() {
+		datuakLortu();
+		JPanel panela = new JPanel();
+		panela.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panela.setLayout(new BorderLayout(0, 0));
+		setContentPane(panela);
+		
+		JPanel panel = new JPanel();
+		panela.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 75, 10));
+		
+		JLabel krL= new JLabel("Momentuko kreditua: "+ kreditua);		
+		panel.add(krL);
+		
+		JLabel krBerriaL= new JLabel("Gehitu nahi duzun kreditua:");		
+		panel.add(krBerriaL);
+		JTextField krBerriaTx = new JTextField();
+		panel.add(krBerriaTx);
+		krBerriaTx.setColumns(20);
+		
+				
+		JPanel behekoPanela = new JPanel();
+		behekoPanela.setLayout(new BorderLayout(50,80));
+		panel.add(behekoPanela, BorderLayout.SOUTH);
+		
+		JButton aldatu = new JButton("Gehitu");
+		behekoPanela.add(aldatu, BorderLayout.CENTER);
+		aldatu.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Konexioa kon = Konexioa.getKonexioa();
+				try{
+					float dirua = Float.parseFloat(krBerriaTx.getText());
+					if(dirua>=0){
+						String pAgindu = String.format("UPDATE Bazkidea SET kreditua=kreditua+%s WHERE kodea=%d;",krBerriaTx.getText(), eraKode);
+						kon.post(pAgindu);
+						new Errorea("Kreditua gehitu da");
+						setContentPane(contentPane);
+					}
+					else{
+						new Errorea("Sartutako balio ez da zuzena");
+					}
+					
+				}
+				catch(Exception ex){System.out.println(e);
+					new Errorea("Sartutako balio ez da zuzena");
+				}
+				
+				
+			}
+		});
+		
+		getRootPane().setDefaultButton(aldatu);
+		
+		JButton atzera = new JButton("<--");
+		atzera.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				setContentPane(contentPane);
+			}
+		});
+		behekoPanela.add(atzera, BorderLayout.EAST);
+		
+		this.setVisible(true);
 	}
 
 }
