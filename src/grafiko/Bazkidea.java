@@ -130,7 +130,7 @@ public class Bazkidea extends JFrame {
 		JButton btnNewButton2 = new JButton("Pelikula alokatu");
 		btnNewButton2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				pelikulaAlokatu();
 			}
 		});
 		panel.add(btnNewButton2);
@@ -346,4 +346,79 @@ public class Bazkidea extends JFrame {
 		this.setVisible(true);
 	}
 
+	private void pelikulaAlokatu(){
+		datuakLortu();
+		JPanel panela = new JPanel();
+		panela.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panela.setLayout(new BorderLayout(0, 0));
+		setContentPane(panela);
+		
+		JPanel panel = new JPanel();
+		panela.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 75, 10));
+		
+		JLabel pelL= new JLabel("Alokatu nahi duzun pelikularen kodea sartu: ");		
+		panel.add(pelL);
+		
+		JTextField pelKodeaTx = new JTextField();
+		panel.add(pelKodeaTx);
+		pelKodeaTx.setColumns(20);
+		
+				
+		JPanel behekoPanela = new JPanel();
+		behekoPanela.setLayout(new BorderLayout(50,80));
+		panel.add(behekoPanela, BorderLayout.SOUTH);
+		
+		JButton alokatu = new JButton("Alokatu");
+		behekoPanela.add(alokatu, BorderLayout.CENTER);
+		alokatu.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Konexioa kon = Konexioa.getKonexioa();
+				try{
+					int pelKodea = Integer.parseInt(pelKodeaTx.getText());
+					ResultSet pelikula=kon.select("SELECT prezioa, egoera FROM pelikula WHERE kodea="+pelKodea+";");
+					if(pelikula.next()){
+						float prezio = pelikula.getFloat("prezioa");
+						String egoera = pelikula.getString("egoera");
+						if(egoera.toUpperCase().equals("LIBRE")){
+							if(prezio<=kreditua){
+								kon.post(String.format("UPDATE Pelikula SET egoera='alokatua' WHERE kodea=%d;",pelKodea));
+								kon.post(String.format("INSERT INTO alokatu SET PelikulaKodea=%d, BazkideKodea=%d;",pelKodea,eraKode));
+								kon.post(String.format("UPDATE Bazkidea SET kreditua=kreditua-%s	WHERE kodea=%d;",Float.toString(prezio),eraKode));	
+								new Errorea("Pelikula alokatu duzu");
+								setContentPane(contentPane);
+							}
+							else new Errorea("Ez duzu diru nahiko");
+						}
+						else new Errorea("Pelikula ezin daiteke alokatu "+egoera+" dago.");
+					}
+					else{
+						new Errorea("Kode okerra");
+					}						
+				}
+				catch(Exception ex){System.out.println(ex);
+					new Errorea("Sartutako kodea ez da zuzena");
+				}
+				
+				
+			}
+		});
+		
+		getRootPane().setDefaultButton(alokatu);
+		
+		JButton atzera = new JButton("<--");
+		atzera.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				setContentPane(contentPane);
+			}
+		});
+		behekoPanela.add(atzera, BorderLayout.EAST);
+		
+		this.setVisible(true);
+		
+	}
+	
+	
 }
