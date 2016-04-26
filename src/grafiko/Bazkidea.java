@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -138,7 +140,7 @@ public class Bazkidea extends JFrame {
 		JButton btnNewButton3 = new JButton("Pelikula itzuli");
 		btnNewButton3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				pelikulaItzuli();
 			}
 		});
 		panel.add(btnNewButton3);
@@ -384,7 +386,7 @@ public class Bazkidea extends JFrame {
 						String egoera = pelikula.getString("egoera");
 						if(egoera.toUpperCase().equals("LIBRE")){
 							if(prezio<=kreditua){
-								kon.post(String.format("UPDATE Pelikula SET egoera='alokatua' WHERE kodea=%d;",pelKodea));
+								kon.post(String.format("UPDATE Pelikula SET egoera='alokatuta' WHERE kodea=%d;",pelKodea));
 								kon.post(String.format("INSERT INTO alokatu SET PelikulaKodea=%d, BazkideKodea=%d;",pelKodea,eraKode));
 								kon.post(String.format("UPDATE Bazkidea SET kreditua=kreditua-%s	WHERE kodea=%d;",Float.toString(prezio),eraKode));	
 								new Errorea("Pelikula alokatu duzu");
@@ -420,5 +422,88 @@ public class Bazkidea extends JFrame {
 		
 	}
 	
+	private void pelikulaItzuli(){
+		datuakLortu();
+		JPanel panela = new JPanel();
+		panela.setBorder(new EmptyBorder(5, 5, 5, 5));
+		panela.setLayout(new BorderLayout(0, 0));
+		setContentPane(panela);
+		
+		JPanel panel = new JPanel();
+		panela.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 75, 10));
+		
+		JLabel pelL= new JLabel("Itzuli nahi duzun pelikularen kodea sartu: ");		
+		panel.add(pelL);
+		
+		JTextField pelKodeaTx = new JTextField();
+		panel.add(pelKodeaTx);
+		pelKodeaTx.setColumns(20);
+		
+				
+		JPanel behekoPanela = new JPanel();
+		behekoPanela.setLayout(new BorderLayout(50,80));
+		panel.add(behekoPanela, BorderLayout.SOUTH);
+		
+		JButton itzuli = new JButton("Itzuli");
+		behekoPanela.add(itzuli, BorderLayout.CENTER);
+		itzuli.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Konexioa kon = Konexioa.getKonexioa();
+				try{
+					int pelKodea = Integer.parseInt(pelKodeaTx.getText());
+					ResultSet pelikula=kon.select("SELECT egoera FROM pelikula WHERE kodea="+pelKodea+";");
+					if(pelikula.next()){
+						String egoera = pelikula.getString("egoera");
+						if(!egoera.toUpperCase().equals("LIBRE")){
+							ResultSet alokatu=kon.select(String.format("SELECT BazkideKodea FROM alokatu WHERE Pelikulakodea=%d AND Idata='0000-00-00 00:00:00';",pelKodea));
+								if (alokatu.next()){
+									int bazkideKode= alokatu.getInt("bazkidekodea");
+									if(bazkideKode==eraKode){
+										Date date = new Date();
+										Timestamp timestamp = new Timestamp(date.getTime());
+										kon.post(String.format("UPDATE alokatu SET Idata='%s' WHERE pelikulakodea=%d AND bazkidekodea=%d AND Idata='0000-00-00 00:00:00';",timestamp,pelKodea,eraKode));
+										if(egoera.toUpperCase().equals("ALOKATUTA")){
+											kon.post(String.format("UPDATE pelikula SET egoera='libre' WHERE kodea=%d;",pelKodea));
+										}
+										new Errorea("Pelikula itzuli duzu");
+										setContentPane(contentPane);
+								
+									}
+									else{new Errorea("Ez duzu pelikula hori alokatuta.");
+									}
+								}		
+								else{new Errorea("Ez duzu pelikula hori alokatuta.");
+								}	
+						}
+						else new Errorea("Pelikula ezin daiteke itzuli "+egoera+" dago.");
+					}
+					else{
+						new Errorea("Kode okerra");
+					}						
+				}
+				catch(Exception ex){System.out.println(ex);
+					new Errorea("Sartutako kodea ez da zuzena");
+				}
+				
+				
+			}
+		});
+		
+		getRootPane().setDefaultButton(itzuli);
+		
+		JButton atzera = new JButton("<--");
+		atzera.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				setContentPane(contentPane);
+			}
+		});
+		behekoPanela.add(atzera, BorderLayout.EAST);
+		
+		this.setVisible(true);
+		
+	}
 	
 }
