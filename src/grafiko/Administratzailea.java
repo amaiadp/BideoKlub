@@ -32,7 +32,7 @@ public class Administratzailea extends JFrame {
 		contentPane1.setLayout(new BorderLayout(0, 0));
 		contentPane1.add(panel1, BorderLayout.SOUTH);
 
-		JButton btnNewButton = new JButton("Bakide berria sartu");
+		JButton btnNewButton = new JButton("Bazkide berria sartu");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
