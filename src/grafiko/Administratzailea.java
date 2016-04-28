@@ -3,10 +3,13 @@ package grafiko;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class Administratzailea extends JFrame {
@@ -43,7 +46,7 @@ public class Administratzailea extends JFrame {
 		JButton btnNewButton1 = new JButton("Bazkideen egoera aldatu");
 		btnNewButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				bazkideEgoeraAldatu();
 			}
 		});
 		panel.add(btnNewButton1);
@@ -74,6 +77,60 @@ public class Administratzailea extends JFrame {
 		
 		panel.add(btnNewButton4);
 		setVisible(true);
+	}
+	
+	public void bazkideEgoeraAldatu(){
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(300, 150, 450, 300);
+		setResizable(false);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
+		JLabel lblBazkidearenIzena = new JLabel("Bazkidearen Kodea:  ");
+		panel.add(lblBazkidearenIzena);
+		
+		JTextField o = new JTextField();
+		panel.add(o);
+		o.setColumns(10);
+		
+		JButton btnNewButton = new JButton("OK");
+		panel.add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				dispose();
+				bazkidearenEgoeraAldatu(o.getText());
+			}
+		});
+		JButton btnNewButton4 = new JButton("<--");
+		btnNewButton4.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				new Administratzailea();
+				dispose();
+			}
+		});
+		panel.add(btnNewButton4);
+		setVisible(true);
+	}
+	
+	public void bazkidearenEgoeraAldatu(String kodea){
+		Konexioa kon = Konexioa.getKonexioa();
+		ResultSet kontsulta = kon.select("SELECT EGOERA FROM BAZKIDEA WHERE KODEA=" + kodea);
+		String egoera = kontsulta.toString();
+		if (egoera == "TRUE"){
+			try {
+				kon.post("UPDATE BAZKIDEA SET EGOERA=FALSE WHERE KODEA="+kodea);
+			} catch (Exception e) {	e.printStackTrace();}
+			
+		}
+		else{
+			try {
+				kon.post("UPDATE BAZKIDEA SET EGOERA=TRUE WHERE KODEA"+kodea);
+			} catch (Exception e) {e.printStackTrace();}
+		}
 	}
 	
 	
