@@ -462,9 +462,7 @@ public class Bazkidea extends JFrame {
 								if (alokatu.next()){
 									int bazkideKode= alokatu.getInt("bazkidekodea");
 									if(bazkideKode==eraKode){
-										Date date = new Date();
-										Timestamp timestamp = new Timestamp(date.getTime());
-										kon.post(String.format("UPDATE alokatu SET Idata='%s' WHERE pelikulakodea=%d AND bazkidekodea=%d AND Idata='0000-00-00 00:00:00';",timestamp,pelKodea,eraKode));
+										kon.post(String.format("UPDATE alokatu SET Idata=CURRENT_TIMESTAMP() WHERE pelikulakodea=%d AND bazkidekodea=%d AND Idata='0000-00-00 00:00:00';",pelKodea,eraKode));
 										if(egoera.toUpperCase().equals("ALOKATUTA")){
 											kon.post(String.format("UPDATE pelikula SET egoera='libre' WHERE kodea=%d;",pelKodea));
 										}
