@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class Arrunta extends JFrame{
@@ -62,39 +63,57 @@ public class Arrunta extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panel.setLayout(new BorderLayout(30,30));
+		
+		JButton itzuli = new JButton("<--");
+		itzuli.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				setContentPane(contentPane);
+			}
+		});	
+		panel.add(itzuli, BorderLayout.SOUTH);
+		
+		JLabel l = new JLabel("KATALOGOA");
+		panel.add(l, BorderLayout.NORTH);
+		l.setFont(new Font("Snap ITC", Font.PLAIN, 25));
+		l.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		JPanel p = new JPanel();
 		p.setLayout(new GridLayout(80,3)); //79 pelikula baino gutxiago badaude
 		Integer i;
 		String s;
 		try{
-			JLabel l = new JLabel("Kodea	");
-			l.setFont(new Font("Arial", Font.PLAIN, 15));
+			Font f = new Font("Arial", Font.BOLD, 15);
+			l = new JLabel("Kodea	");
+			l.setFont(f);
 			p.add(l);
 			l = new JLabel("Egoera	");
-			l.setFont(new Font("Arial", Font.PLAIN, 15));
+			l.setFont(f);
 			p.add(l);
 			l = new JLabel("Titulua			");
-			l.setFont(new Font("Arial", Font.PLAIN, 15));
+			l.setFont(f);
 			p.add(l);
 			ResultSet ema = Konexioa.getKonexioa().select("SELECT kodea,egoera,titulua FROM Pelikula;");
+			f = new Font("Arial", Font.PLAIN, 15);
 			while(ema.next()){
 				i = ema.getInt("kodea");
 				s = i.toString();
 				l = new JLabel(s);
-				l.setFont(new Font("Arial", Font.PLAIN, 15));
+				l.setFont(f);
 				p.add(l);
 				l = new JLabel(ema.getString("egoera"));
-				l.setFont(new Font("Arial", Font.PLAIN, 15));
+				l.setFont(f);
 				p.add(l);
 				l = new JLabel(ema.getString("titulua"));
-				l.setFont(new Font("Arial", Font.PLAIN, 15));
+				l.setFont(f);
 				p.add(l);
 			}
 			JScrollPane jsp = new JScrollPane(p);
-			panel.add(jsp);
+			panel.add(jsp, BorderLayout.CENTER);
+			
 			
 		}catch(Exception ex){System.out.println(ex);}
 		
+	
 		
 	}
 	
