@@ -81,7 +81,7 @@ public class Arrunta extends JFrame{
 		ResultSet ema = Konexioa.getKonexioa().select("SELECT kodea,egoera,titulua FROM Pelikula;");
 		JScrollPane jsp = erakutsi(ema);
 		panel.add(jsp, BorderLayout.CENTER);
-	
+		setVisible(true);
 		
 	}
 	
@@ -107,14 +107,19 @@ public class Arrunta extends JFrame{
 		ResultSet ema = Konexioa.getKonexioa().select("SELECT kodea,egoera,titulua FROM Pelikula WHERE DATE_ADD(CURDATE(),INTERVAL 7 DAY) ;");
 		JScrollPane jsp = erakutsi(ema);
 		panel.add(jsp, BorderLayout.CENTER);
+		setVisible(true);
+		
 	}
 	
 	private JScrollPane erakutsi(ResultSet ema){
-		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(80,3)); //79 pelikula baino gutxiago badaude
-		Integer i;
-		String s;
 		try{
+			ema.last();
+			int k = ema.getRow();
+			JPanel p = new JPanel();
+			p.setLayout(new GridLayout(k+1,3)); //79 pelikula baino gutxiago badaude
+			Integer i;
+			String s;
+		
 			Font f = new Font("Arial", Font.BOLD, 15);
 			JLabel l = new JLabel("Kodea	");
 			l.setFont(f);
