@@ -81,6 +81,8 @@ public class Arrunta extends JFrame{
 		ResultSet ema = Konexioa.getKonexioa().select("SELECT kodea,egoera,titulua FROM Pelikula;");
 		JScrollPane jsp = erakutsi(ema);
 		panel.add(jsp, BorderLayout.CENTER);
+		
+		setContentPane(panel);
 		setVisible(true);
 		
 	}
@@ -102,11 +104,11 @@ public class Arrunta extends JFrame{
 		panel.add(l, BorderLayout.NORTH);
 		l.setFont(new Font("Snap ITC", Font.PLAIN, 25));
 		l.setHorizontalAlignment(SwingConstants.CENTER);
-		//Date date = new Date();
-		//Timestamp ts = new Timestamp(date.getTime());
-		ResultSet ema = Konexioa.getKonexioa().select("SELECT kodea,egoera,titulua FROM Pelikula WHERE DATE_ADD(CURDATE(),INTERVAL 7 DAY) ;");
+		ResultSet ema = Konexioa.getKonexioa().select("SELECT kodea,egoera,titulua FROM Pelikula WHERE data>DATE_SUB(CURRENT_TIMESTAMP(),INTERVAL 2 DAY) ;");
 		JScrollPane jsp = erakutsi(ema);
 		panel.add(jsp, BorderLayout.CENTER);
+
+		setContentPane(panel);
 		setVisible(true);
 		
 	}
@@ -116,22 +118,23 @@ public class Arrunta extends JFrame{
 			ema.last();
 			int k = ema.getRow();
 			JPanel p = new JPanel();
-			p.setLayout(new GridLayout(k+1,3)); //79 pelikula baino gutxiago badaude
+			p.setLayout(new GridLayout(k+1,3)); 
 			Integer i;
 			String s;
 		
 			Font f = new Font("Arial", Font.BOLD, 15);
-			JLabel l = new JLabel("Kodea	");
+			JLabel l = new JLabel("Kodea");
 			l.setFont(f);
 			p.add(l);
-			l = new JLabel("Egoera	");
+			l = new JLabel("Egoera");
 			l.setFont(f);
 			p.add(l);
-			l = new JLabel("Titulua			");
+			l = new JLabel("Titulua");
 			l.setFont(f);
 			p.add(l);
-			
+			ema.beforeFirst();
 			f = new Font("Arial", Font.PLAIN, 15);
+			
 			while(ema.next()){
 				i = ema.getInt("kodea");
 				s = i.toString();

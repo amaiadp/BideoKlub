@@ -242,6 +242,8 @@ public class Bazkidea extends JFrame {
 					new String();
 					String pAgindu = String.format("UPDATE Bazkidea SET pasahitza='%s' , izena='%s' , abizena='%s' , helbidea='%s' WHERE kodea=%d", pasTx.getText(),izTx.getText(),abTx.getText(),helTx.getText(),eraKode);
 					kon.post(pAgindu);
+					new Errorea("Datuak aldatu dira");
+					setContentPane(contentPane);
 				}
 				catch(Exception ex){
 					new Errorea("Aldagaien tamaina luzeegia:       Izena(30) Abizena(30) Helbidea(50) Pasahitza(4)");

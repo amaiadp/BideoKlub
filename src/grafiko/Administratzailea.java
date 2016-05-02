@@ -101,8 +101,8 @@ public class Administratzailea extends JFrame {
 		panel.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				dispose();
 				bazkidearenEgoeraAldatu(o.getText());
+				dispose();
 			}
 		});
 		JButton btnNewButton4 = new JButton("<--");
@@ -117,20 +117,23 @@ public class Administratzailea extends JFrame {
 	}
 	
 	public void bazkidearenEgoeraAldatu(String kodea){
-		Konexioa kon = Konexioa.getKonexioa();
-		ResultSet kontsulta = kon.select("SELECT EGOERA FROM BAZKIDEA WHERE KODEA=" + kodea);
-		String egoera = kontsulta.toString();
-		if (egoera == "TRUE"){
+		try{Konexioa kon = Konexioa.getKonexioa();
+		ResultSet kontsulta = kon.select("SELECT EGOERA FROM BAZKIDEA WHERE KODEA=" + kodea+";");
+		kontsulta.next();
+		boolean egoera = kontsulta.getBoolean("egoera");
+		if (egoera){
 			try {
-				kon.post("UPDATE BAZKIDEA SET EGOERA=FALSE WHERE KODEA="+kodea);
+				kon.post("UPDATE BAZKIDEA SET EGOERA=FALSE WHERE KODEA="+kodea+";");
 			} catch (Exception e) {	e.printStackTrace();}
 			
 		}
 		else{
 			try {
-				kon.post("UPDATE BAZKIDEA SET EGOERA=TRUE WHERE KODEA"+kodea);
+				kon.post("UPDATE BAZKIDEA SET EGOERA=TRUE WHERE KODEA="+kodea+";");
 			} catch (Exception e) {e.printStackTrace();}
 		}
+		}
+		catch (Exception ex){}
 	}
 	
 	
