@@ -127,7 +127,9 @@ public class Administratzailea extends JFrame {
 			con.post("UPDATE BAZKIDEA SET EGOERA=NOT EGOERA WHERE KODEA="+kodea+";");
 			new Errorea(kodea+"   kodea duen bazkidearen egoera aldatu egin da");
 			
-		}catch(Exception e){System.out.println(e);}
+		}catch(Exception e){System.out.println(e);
+							new Errorea("Bazkidearen kodea txarto adierazita dato (letra bat edo kode hori daukan bazkiderik ez dago).");
+							}
 	}
 	
 	
@@ -226,8 +228,8 @@ public class Administratzailea extends JFrame {
 	}
 	public void pelikulaBerriaSartu(String izena,String k, String prezioa){
 		float o = Integer.parseInt(prezioa);
-		int kodea = Integer.parseInt(k);
 		Konexioa kon = Konexioa.getKonexioa();
+		int kodea = Integer.parseInt(k);
 		try {
 			kon.post("INSERT INTO PELIKULA (TITULUA,KODEA,PREZIOA) VALUES('"+izena+"','"+kodea+"','"+o+"');");
 			new Errorea("Pelikula sortu da");
@@ -294,7 +296,9 @@ public class Administratzailea extends JFrame {
 				new Errorea("Pelikula ezabatu egin da.");
 			}
 			
-		}catch(Exception e){System.out.println(e);}
+		}catch(Exception e){System.out.println(e);
+							new Errorea("Pelikula ezin izan da bajan eman ( kodea txarto adierazita dagoelako edo pelikulek kode hori ez daukatelako).");
+							}
 	}
 	
 	
