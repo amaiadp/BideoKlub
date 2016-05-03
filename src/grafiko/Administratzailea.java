@@ -283,7 +283,7 @@ public class Administratzailea extends JFrame {
 		try{
 			int kodea = Integer.parseInt(k);
 			Konexioa con = Konexioa.getKonexioa();
-			ResultSet s = con.select("SELECT EGOERA FROM PELIKULA WHERE EGOERA="+kodea+";");
+			ResultSet s = con.select("SELECT EGOERA FROM PELIKULA WHERE KODEA="+kodea+";");
 			s.next();
 			String egoera = s.getString("EGOERA");
 			if (egoera.equalsIgnoreCase("alokatuta")){
