@@ -176,14 +176,14 @@ public class Administratzailea extends JFrame {
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		textField_1.setEditable(false);
-
-			Konexioa k = Konexioa.getKonexioa();
-			ResultSet s = k.select("SELECT MAX(KODEA) FROM PELIKULA");
-			s.next();
-			int kode = s.getInt("Max(kodea)");
-			kode++;
-			textField_1.setText(Integer.toString(kode));
-
+			try{
+				Konexioa k = Konexioa.getKonexioa();
+				ResultSet s = k.select("SELECT MAX(KODEA) FROM PELIKULA");
+				s.next();
+				int kode = s.getInt("Max(kodea)");
+				kode++;
+				textField_1.setText(Integer.toString(kode));
+			}catch(Exception ex){new Errorea("Kode berria begiratzerakoan errore bat gertatu da.");}
 		
 		JLabel lblPrezioa = new JLabel("Prezioa : ");
 		sl_contentPane.putConstraint(SpringLayout.NORTH, lblPrezioa, 27, SpringLayout.SOUTH, lblKodea);
@@ -223,18 +223,20 @@ public class Administratzailea extends JFrame {
 		
 		setVisible(true);
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			new Errorea("Pantailaratzeko orduan errore bat egon da.");
 		}
 	}
 	public void pelikulaBerriaSartu(String izena,String k, String prezioa){
-		float o = Integer.parseInt(prezioa);
-		Konexioa kon = Konexioa.getKonexioa();
-		int kodea = Integer.parseInt(k);
+		
 		try {
-			kon.post("INSERT INTO PELIKULA (TITULUA,KODEA,PREZIOA) VALUES('"+izena+"','"+kodea+"','"+o+"');");
-			new Errorea("Pelikula sortu da");
+			float o = Integer.parseInt(prezioa);
+			Konexioa kon = Konexioa.getKonexioa();
+			int kodea = Integer.parseInt(k);
+	
+				kon.post("INSERT INTO PELIKULA (TITULUA,KODEA,PREZIOA) VALUES('"+izena+"','"+kodea+"','"+o+"');");
+				new Errorea("Pelikula sortu da");
 		} catch (Exception e) {
-			e.printStackTrace();
+			new Errorea("Prezioa edo Izenburua txarto adierazita daude.");
 		}
 	}
 	
@@ -316,7 +318,7 @@ public class Administratzailea extends JFrame {
 			con.post("INSERT INTO BAZKIDEA (KODEA) VALUES("+kode+");");
 			new Errorea("Bazkide berria sortu da, bere Kodea ("+kode+") da.");
 		} catch (Exception e) {
-			e.printStackTrace();
+			new Errorea("Bazkidea sortzerakoan arazoren bat egon da.");
 		}
 		
 	}
