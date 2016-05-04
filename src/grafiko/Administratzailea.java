@@ -127,7 +127,7 @@ public class Administratzailea extends JFrame {
 			con.post("UPDATE BAZKIDEA SET EGOERA=NOT EGOERA WHERE KODEA="+kodea+";");
 			new Errorea(kodea+"   kodea duen bazkidearen egoera aldatu egin da");
 			
-		}catch(Exception e){System.out.println(e);
+		}catch(Exception e){
 							new Errorea("Bazkidearen kodea txarto adierazita dato (letra bat edo kode hori daukan bazkiderik ez dago).");
 							}
 	}
@@ -298,7 +298,7 @@ public class Administratzailea extends JFrame {
 				new Errorea("Pelikula ezabatu egin da.");
 			}
 			
-		}catch(Exception e){System.out.println(e);
+		}catch(Exception e){
 							new Errorea("Pelikula ezin izan da bajan eman ( kodea txarto adierazita dagoelako edo pelikulek kode hori ez daukatelako).");
 							}
 	}
