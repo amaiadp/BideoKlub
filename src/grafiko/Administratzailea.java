@@ -125,10 +125,10 @@ public class Administratzailea extends JFrame {
 		try{
 			Konexioa con = Konexioa.getKonexioa();
 			con.post("UPDATE BAZKIDEA SET EGOERA=NOT EGOERA WHERE KODEA="+kodea+";");
-			new Errorea(kodea+"   kodea duen bazkidearen egoera aldatu egin da");
+			new Mezua(kodea+"   kodea duen bazkidearen egoera aldatu egin da");
 			
 		}catch(Exception e){
-							new Errorea("Bazkidearen kodea txarto adierazita dato (letra bat edo kode hori daukan bazkiderik ez dago).");
+							new Mezua("Bazkidearen kodea txarto adierazita dato (letra bat edo kode hori daukan bazkiderik ez dago).");
 							}
 	}
 	
@@ -183,7 +183,7 @@ public class Administratzailea extends JFrame {
 				int kode = s.getInt("Max(kodea)");
 				kode++;
 				textField_1.setText(Integer.toString(kode));
-			}catch(Exception ex){new Errorea("Kode berria begiratzerakoan errore bat gertatu da.");}
+			}catch(Exception ex){new Mezua("Kode berria begiratzerakoan errore bat gertatu da.");}
 		
 		JLabel lblPrezioa = new JLabel("Prezioa : ");
 		sl_contentPane.putConstraint(SpringLayout.NORTH, lblPrezioa, 27, SpringLayout.SOUTH, lblKodea);
@@ -223,7 +223,7 @@ public class Administratzailea extends JFrame {
 		
 		setVisible(true);
 		} catch (Exception e1) {
-			new Errorea("Pantailaratzeko orduan errore bat egon da.");
+			new Mezua("Pantailaratzeko orduan errore bat egon da.");
 		}
 	}
 	public void pelikulaBerriaSartu(String izena,String k, String prezioa){
@@ -234,9 +234,9 @@ public class Administratzailea extends JFrame {
 			int kodea = Integer.parseInt(k);
 	
 				kon.post("INSERT INTO PELIKULA (TITULUA,KODEA,PREZIOA) VALUES('"+izena+"','"+kodea+"','"+o+"');");
-				new Errorea("Pelikula sortu da");
+				new Mezua("Pelikula sortu da");
 		} catch (Exception e) {
-			new Errorea("Prezioa edo Izenburua txarto adierazita daude.");
+			new Mezua("Prezioa edo Izenburua txarto adierazita daude.");
 		}
 	}
 	
@@ -290,16 +290,16 @@ public class Administratzailea extends JFrame {
 			String egoera = s.getString("EGOERA");
 			if (egoera.equalsIgnoreCase("alokatuta")){
 				con.post("UPDATE PELIKULA SET EGOERA='DESKATALOGATUTA' WHERE KODEA="+kodea+";");
-				new Errorea("Pelikula deskatalogatu egin da.");
+				new Mezua("Pelikula deskatalogatu egin da.");
 			}
 			
 			else if(egoera.equalsIgnoreCase("libre")){
 				con.post("DELETE FROM PELIKULA WHERE KODEA="+kodea+";");
-				new Errorea("Pelikula ezabatu egin da.");
+				new Mezua("Pelikula ezabatu egin da.");
 			}
 			
 		}catch(Exception e){
-							new Errorea("Pelikula ezin izan da bajan eman ( kodea txarto adierazita dagoelako edo pelikulek kode hori ez daukatelako).");
+							new Mezua("Pelikula ezin izan da bajan eman ( kodea txarto adierazita dagoelako edo pelikulek kode hori ez daukatelako).");
 							}
 	}
 	
@@ -316,9 +316,9 @@ public class Administratzailea extends JFrame {
 			int kode = s.getInt("Max(kodea)");
 			kode++;
 			con.post("INSERT INTO BAZKIDEA (KODEA) VALUES("+kode+");");
-			new Errorea("Bazkide berria sortu da, bere Kodea ("+kode+") da.");
+			new Mezua("Bazkide berria sortu da, bere Kodea ("+kode+") da.");
 		} catch (Exception e) {
-			new Errorea("Bazkidea sortzerakoan arazoren bat egon da.");
+			new Mezua("Bazkidea sortzerakoan arazoren bat egon da.");
 		}
 		
 	}

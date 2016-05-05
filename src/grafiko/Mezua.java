@@ -13,13 +13,13 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Errorea extends JDialog {
+public class Mezua extends JDialog {
 
 	private JPanel contentPanel = new JPanel();
 
 
-	public Errorea(String mezu) {
-		super(new Frame(),"Error", true);
+	public Mezua(String mezu) {
+		super(new Frame(),"", true);
 		setBounds(100, 100, 550, 200);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(50, 5, 5, 5));

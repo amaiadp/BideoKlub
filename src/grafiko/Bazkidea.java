@@ -82,7 +82,7 @@ public class Bazkidea extends JFrame {
 					}
 				}
 				catch (Exception ex){
-					new Errorea("Erabiltzaile okerra");
+					new Mezua("Erabiltzaile okerra");
 				}
 			}
 
@@ -159,7 +159,7 @@ public class Bazkidea extends JFrame {
 		Konexioa kon = Konexioa.getKonexioa();
 		ResultSet ema = kon.select("SELECT pasahitza FROM bazkidea WHERE kodea = "+ this.eraKode + ";");
 		if (ema== null){
-			new Errorea("Erabiltzaile okerra");
+			new Mezua("Erabiltzaile okerra");
 		}
 		else{
 			try {
@@ -173,16 +173,16 @@ public class Bazkidea extends JFrame {
 							return true;
 						}
 						else{
-							new Errorea("Bazkidea ez dago altan");
+							new Mezua("Bazkidea ez dago altan");
 						}
 						
 					}
 					else{
-						new Errorea("Pasahitza okerra2");
+						new Mezua("Pasahitza okerra2");
 					}
 				}
 				else{
-					new Errorea("Erabiltzaile okerra3");
+					new Mezua("Erabiltzaile okerra3");
 				}
 				
 			} catch (SQLException e) {
@@ -242,11 +242,11 @@ public class Bazkidea extends JFrame {
 					new String();
 					String pAgindu = String.format("UPDATE Bazkidea SET pasahitza='%s' , izena='%s' , abizena='%s' , helbidea='%s' WHERE kodea=%d", pasTx.getText(),izTx.getText(),abTx.getText(),helTx.getText(),eraKode);
 					kon.post(pAgindu);
-					new Errorea("Datuak aldatu dira");
+					new Mezua("Datuak aldatu dira");
 					setContentPane(contentPane);
 				}
 				catch(Exception ex){
-					new Errorea("Aldagaien tamaina luzeegia:       Izena(30) Abizena(30) Helbidea(50) Pasahitza(4)");
+					new Mezua("Aldagaien tamaina luzeegia:       Izena(30) Abizena(30) Helbidea(50) Pasahitza(4)");
 				}
 				
 		
@@ -321,16 +321,16 @@ public class Bazkidea extends JFrame {
 					if(dirua>=0){
 						String pAgindu = String.format("UPDATE Bazkidea SET kreditua=kreditua+%s WHERE kodea=%d;",krBerriaTx.getText(), eraKode);
 						kon.post(pAgindu);
-						new Errorea("Kreditua gehitu da");
+						new Mezua("Kreditua gehitu da");
 						setContentPane(contentPane);
 					}
 					else{
-						new Errorea("Sartutako balio ez da zuzena");
+						new Mezua("Sartutako balio ez da zuzena");
 					}
 					
 				}
-				catch(Exception ex){System.out.println(e);
-					new Errorea("Sartutako balio ez da zuzena");
+				catch(Exception ex){
+					new Mezua("Sartutako balio ez da zuzena");
 				}
 				
 				
@@ -391,19 +391,19 @@ public class Bazkidea extends JFrame {
 								kon.post(String.format("UPDATE Pelikula SET egoera='alokatuta' WHERE kodea=%d;",pelKodea));
 								kon.post(String.format("INSERT INTO alokatu SET PelikulaKodea=%d, BazkideKodea=%d;",pelKodea,eraKode));
 								kon.post(String.format("UPDATE Bazkidea SET kreditua=kreditua-%s	WHERE kodea=%d;",Float.toString(prezio),eraKode));	
-								new Errorea("Pelikula alokatu duzu");
+								new Mezua("Pelikula alokatu duzu");
 								setContentPane(contentPane);
 							}
-							else new Errorea("Ez duzu diru nahiko");
+							else new Mezua("Ez duzu diru nahiko");
 						}
-						else new Errorea("Pelikula ezin daiteke alokatu "+egoera+" dago.");
+						else new Mezua("Pelikula ezin daiteke alokatu "+egoera+" dago.");
 					}
 					else{
-						new Errorea("Kode okerra");
+						new Mezua("Kode okerra");
 					}						
 				}
-				catch(Exception ex){System.out.println(ex);
-					new Errorea("Sartutako kodea ez da zuzena");
+				catch(Exception ex){
+					new Mezua("Sartutako kodea ez da zuzena");
 				}
 				
 				
@@ -456,36 +456,31 @@ public class Bazkidea extends JFrame {
 				Konexioa kon = Konexioa.getKonexioa();
 				try{
 					int pelKodea = Integer.parseInt(pelKodeaTx.getText());
-					ResultSet pelikula=kon.select("SELECT egoera FROM pelikula WHERE kodea="+pelKodea+";");
-					if(pelikula.next()){
-						String egoera = pelikula.getString("egoera");
-						if(!egoera.toUpperCase().equals("LIBRE")){
-							ResultSet alokatu=kon.select(String.format("SELECT BazkideKodea FROM alokatu WHERE Pelikulakodea=%d AND Idata='0000-00-00 00:00:00';",pelKodea));
-								if (alokatu.next()){
-									int bazkideKode= alokatu.getInt("bazkidekodea");
-									if(bazkideKode==eraKode){
-										kon.post(String.format("UPDATE alokatu SET Idata=CURRENT_TIMESTAMP() WHERE pelikulakodea=%d AND bazkidekodea=%d AND Idata='0000-00-00 00:00:00';",pelKodea,eraKode));
-										if(egoera.toUpperCase().equals("ALOKATUTA")){
-											kon.post(String.format("UPDATE pelikula SET egoera='libre' WHERE kodea=%d;",pelKodea));
-										}
-										new Errorea("Pelikula itzuli duzu");
-										setContentPane(contentPane);
-								
-									}
-									else{new Errorea("Ez duzu pelikula hori alokatuta.");
-									}
-								}		
-								else{new Errorea("Ez duzu pelikula hori alokatuta.");
-								}	
+					ResultSet alokatu=kon.select(String.format("SELECT BazkideKodea FROM alokatu WHERE Pelikulakodea=%d AND Idata='0000-00-00 00:00:00';",pelKodea));
+					if (alokatu.next()){
+						int bazkideKode= alokatu.getInt("bazkidekodea");
+						if(bazkideKode==eraKode){
+							ResultSet pelikula=kon.select("SELECT egoera FROM pelikula WHERE kodea="+pelKodea+";");
+							if(pelikula.next()){
+								String egoera = pelikula.getString("egoera");
+								kon.post(String.format("UPDATE alokatu SET Idata=CURRENT_TIMESTAMP() WHERE pelikulakodea=%d AND bazkidekodea=%d AND Idata='0000-00-00 00:00:00';",pelKodea,eraKode));
+								if(egoera.toUpperCase().equals("ALOKATUTA")){
+									kon.post(String.format("UPDATE pelikula SET egoera='libre' WHERE kodea=%d;",pelKodea));
+								}
+								new Mezua("Pelikula itzuli duzu");
+								setContentPane(contentPane);
+							}	
+						}		
+						else{
+							new Mezua("Ez duzu pelikula hori alokatuta.");
 						}
-						else new Errorea("Pelikula ezin daiteke itzuli "+egoera+" dago.");
-					}
-					else{
-						new Errorea("Kode okerra");
-					}						
+					}		
+					else{new Mezua("Ez duzu pelikula hori alokatuta.");
+					}	
+										
 				}
-				catch(Exception ex){System.out.println(ex);
-					new Errorea("Sartutako kodea ez da zuzena");
+				catch(Exception ex){
+					new Mezua("Sartutako kodea ez da zuzena");
 				}
 				
 				
