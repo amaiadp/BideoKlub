@@ -31,14 +31,10 @@ public class Bazkidea extends JFrame {
 	private String helbidea;
 	private float kreditua;
 	
-	
-	/**
-	 * Create the frame.
-	 */
+
 	
 	public Bazkidea(){
 		this.loginSortu();		
-		//this.menuaErakutsi();
 	}
 	
 	
@@ -178,11 +174,11 @@ public class Bazkidea extends JFrame {
 						
 					}
 					else{
-						new Mezua("Pasahitza okerra2");
+						new Mezua("Pasahitza okerra");
 					}
 				}
 				else{
-					new Mezua("Erabiltzaile okerra3");
+					new Mezua("Erabiltzaile okerra");
 				}
 				
 			} catch (SQLException e) {
@@ -271,6 +267,7 @@ public class Bazkidea extends JFrame {
 		ResultSet ema = kon.select("SELECT pasahitza,izena,abizena,helbidea,kreditua FROM bazkidea WHERE kodea="+eraKode+";");
 		try{
 			if(ema.next()){
+				this.pasahitza = ema.getString("pasahitza");
 				izena = ema.getString("izena");
 				abizena = ema.getString("abizena");
 				helbidea = ema.getString("helbidea");
@@ -388,8 +385,8 @@ public class Bazkidea extends JFrame {
 						String egoera = pelikula.getString("egoera");
 						if(egoera.toUpperCase().equals("LIBRE")){
 							if(prezio<=kreditua){
-								kon.post(String.format("UPDATE Pelikula SET egoera='alokatuta' WHERE kodea=%d;",pelKodea));
 								kon.post(String.format("INSERT INTO alokatu SET PelikulaKodea=%d, BazkideKodea=%d;",pelKodea,eraKode));
+								kon.post(String.format("UPDATE Pelikula SET egoera='ALOKATUTA' WHERE kodea=%d;",pelKodea));		
 								kon.post(String.format("UPDATE Bazkidea SET kreditua=kreditua-%s	WHERE kodea=%d;",Float.toString(prezio),eraKode));	
 								new Mezua("Pelikula alokatu duzu");
 								setContentPane(contentPane);
@@ -465,7 +462,7 @@ public class Bazkidea extends JFrame {
 								String egoera = pelikula.getString("egoera");
 								kon.post(String.format("UPDATE alokatu SET Idata=CURRENT_TIMESTAMP() WHERE pelikulakodea=%d AND bazkidekodea=%d AND Idata='0000-00-00 00:00:00';",pelKodea,eraKode));
 								if(egoera.toUpperCase().equals("ALOKATUTA")){
-									kon.post(String.format("UPDATE pelikula SET egoera='libre' WHERE kodea=%d;",pelKodea));
+									kon.post(String.format("UPDATE pelikula SET egoera='LIBRE' WHERE kodea=%d;",pelKodea));
 								}
 								new Mezua("Pelikula itzuli duzu");
 								setContentPane(contentPane);

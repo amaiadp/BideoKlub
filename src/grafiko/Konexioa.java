@@ -39,12 +39,10 @@ public class Konexioa {
     }
    
     public void post(String pAgindu)throws Exception{
- //       try {
             PreparedStatement posted = conn.prepareStatement(pAgindu);
            
             posted.executeUpdate();
            
-//        }catch(Exception e){System.out.println(e);}
     }
    
     public ResultSet select(String pAgindua){
@@ -54,19 +52,7 @@ public class Konexioa {
             ResultSet result = statement.executeQuery();
             return result;
            
-//           	ArrayList<String> array = new ArrayList<String>();
-//            while(result.next()){
-//                System.out.print(result.getString("first"));
-//                System.out.print(("    "));
-//                System.out.println(result.getString("last"));
-//               
-//               
-//                array.add(result.getString("last"));
-//               
-//            }
-//            System.out.println("All records have been selected");
-//            return array;
-        }catch (Exception e){System.out.println(e);}
+        }catch (Exception e){}
         return null;
    
        

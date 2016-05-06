@@ -128,7 +128,7 @@ public class Administratzailea extends JFrame {
 			new Mezua(kodea+"   kodea duen bazkidearen egoera aldatu egin da");
 			
 		}catch(Exception e){
-							new Mezua("Bazkidearen kodea txarto adierazita dato (letra bat edo kode hori daukan bazkiderik ez dago).");
+							new Mezua("Bazkidearen kodea txarto adierazita dago.");
 							}
 	}
 	
@@ -229,7 +229,7 @@ public class Administratzailea extends JFrame {
 	public void pelikulaBerriaSartu(String izena,String k, String prezioa){
 		
 		try {
-			float o = Integer.parseInt(prezioa);
+			float o = Float.parseFloat(prezioa);
 			Konexioa kon = Konexioa.getKonexioa();
 			int kodea = Integer.parseInt(k);
 	
@@ -299,7 +299,7 @@ public class Administratzailea extends JFrame {
 			}
 			
 		}catch(Exception e){
-							new Mezua("Pelikula ezin izan da bajan eman ( kodea txarto adierazita dagoelako edo pelikulek kode hori ez daukatelako).");
+							new Mezua("Pelikula ezin izan da bajan eman.");
 							}
 	}
 	

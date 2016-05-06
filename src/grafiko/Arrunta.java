@@ -104,7 +104,7 @@ public class Arrunta extends JFrame{
 		panel.add(l, BorderLayout.NORTH);
 		l.setFont(new Font("Snap ITC", Font.PLAIN, 25));
 		l.setHorizontalAlignment(SwingConstants.CENTER);
-		ResultSet ema = Konexioa.getKonexioa().select("SELECT kodea,egoera,titulua FROM Pelikula WHERE data>DATE_SUB(CURRENT_TIMESTAMP(),INTERVAL 2 DAY) ;");
+		ResultSet ema = Konexioa.getKonexioa().select("SELECT kodea,egoera,titulua FROM Pelikula WHERE data>DATE_SUB(CURRENT_TIMESTAMP(),INTERVAL 7 DAY) ;");
 		JScrollPane jsp = erakutsi(ema);
 		panel.add(jsp, BorderLayout.CENTER);
 

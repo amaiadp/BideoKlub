@@ -15,9 +15,7 @@ public class Leihoa extends JFrame {
 	private JPanel contentPane;
 	private static Leihoa frame;
 
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -34,9 +32,7 @@ public class Leihoa extends JFrame {
 	public static Leihoa getFrame(){
 		return frame;
 	}
-	/**
-	 * Create the frame.
-	 */
+
 	private Leihoa() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(300, 150, 450, 300);
@@ -76,11 +72,5 @@ public class Leihoa extends JFrame {
 		});
 		panel.add(btnNewButton);
 	}
-
-	//EKA YA LO TIENE EN SU PC !!
-	//UEEEEEE
-	//KILL ME PLS
-	
-	
 	
 }
